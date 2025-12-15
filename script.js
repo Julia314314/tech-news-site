@@ -698,35 +698,55 @@ function router(){
   if(!app) return;
 
   const { path, rest } = getRoute();
-
   let html = '';
+
   if(path === '' || path === '/'){
     html = renderHome();
+
   }else if(path === 'ai-engineering'){
-    html = renderCategoryPage('ai-engineering', 'AI × 工程專題解析', '用工程與系統思維拆解 AI 如何落地。');
+    html = renderCategoryPage(
+      'ai-engineering',
+      'AI × 工程專題解析',
+      '用工程與系統思維拆解 AI 如何落地。'
+    );
+
   }else if(path === 'philly-week'){
-    html = renderCategoryPage('philly-week', '費城科技週觀察', '活動筆記 × Demo 亮點 × 學生觀察。');
+    html = renderCategoryPage(
+      'philly-week',
+      '費城科技週觀察',
+      '活動筆記 × Demo 亮點 × 學生觀察。'
+    );
+
   }else if(path === 'monthly-trends'){
-    html = renderCategoryPage('monthly-trends', '每月科技趨勢摘要', '每月 3–5 個趨勢：一句話重點＋影響面＋延伸閱讀。');
+    html = renderCategoryPage(
+      'monthly-trends',
+      '每月科技趨勢摘要',
+      '每月 3–5 個趨勢：一句話重點＋影響面＋延伸閱讀。'
+    );
+
   }else if(path === 'post'){
     html = renderPost(decodeURIComponent(rest[0] || ''));
+
   }else if(path === 'subscribe'){
     html = renderSubscribe();
+
   }else if(path === 'archive'){
     html = renderArchive();
+
   }else if(path === 'newsletter'){
     html = renderNewsletter(decodeURIComponent(rest[0] || ''));
+
+  }else if(path === 'portfolio'){
+    html = renderPortfolio();
+
+  }else if(path === 'events'){
+    html = renderEvents();
+
   }else if(path === 'about'){
     html = renderAbout();
+
   }else{
     html = renderNotFound();
-  }
-  }else if(path === 'portfolio'){
-  html = renderPortfolio();
-  }else if(path === 'events'){
-  html = renderEvents();
-  }else if(path === 'about'){
-  html = renderAbout();
   }
 
   app.innerHTML = html;
