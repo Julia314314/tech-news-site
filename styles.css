@@ -281,3 +281,32 @@ input:focus,textarea:focus{border-color: rgba(120,180,255,.55)}
   .nav a{width:100%}
   .nav.open{display:flex}
 }
+/* ===== 強制修復：任何背景層都不能擋點擊 ===== */
+
+/* Header 與導覽一定在最上層 */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+/* 導覽本身 */
+.nav {
+  position: relative;
+  z-index: 10000;
+}
+
+/* 導覽內所有連結 */
+.nav a {
+  position: relative;
+  z-index: 10001;
+  pointer-events: auto;
+}
+
+/* 所有 hero 背景偽元素一律不吃事件 */
+.hero::before,
+.hero::after,
+section::before,
+section::after {
+  pointer-events: none !important;
+}
