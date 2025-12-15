@@ -8,11 +8,23 @@ const state = {
 };
 
 async function loadData(){
-  const posts = await fetch('./data/posts.json').then(r => r.json());
-  const newsletters = await fetch('./data/newsletters.json').then(r => r.json());
-  state.posts = posts;
-  state.newsletters = newsletters;
+  try{
+    const postsRes = await fetch('./data/posts.json');
+    state.posts = postsRes.ok ? await postsRes.json() : [];
+  }catch(e){
+    console.warn('posts.json 載入失敗', e);
+    state.posts = [];
+  }
+
+  try{
+    const newsRes = await fetch('./data/newsletters.json');
+    state.newsletters = newsRes.ok ? await newsRes.json() : [];
+  }catch(e){
+    console.warn('newsletters.json 載入失敗', e);
+    state.newsletters = [];
+  }
 }
+
 
 function formatDate(iso){
   try{
