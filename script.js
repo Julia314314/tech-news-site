@@ -37,8 +37,10 @@ function renderHome(){
     <section class="hero">
       <h1>把科技新知，寫成你看得懂、做得到的版本</h1>
       <p>
-        這裡專注三件事：<b>AI × 工程專題解析</b>、<b>費城科技週觀察</b>、<b>每月科技趨勢摘要</b>。
-        每月固定更新 1 篇深度文章（800–1200 字），並提供 Email 訂閱與季度電子報。
+      <b>女性 × 偏鄉 × 科技：</b>我把分散、艱澀、難取得的科技與競賽資源，整理成更容易理解、也更容易開始的版本，
+      讓更多女性與偏鄉學生能看見更大的世界。
+      <br/>
+      同時維持三大固定內容：<b>AI × 工程專題解析</b>、<b>費城科技週觀察</b>、<b>每月科技趨勢摘要</b>。
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#/subscribe">立即訂閱</a>
@@ -317,6 +319,196 @@ function renderAbout(){
 }
 function renderPortfolio(){
   const items = [
+    {
+      key: "(a)",
+      title: "全國量測物理競賽",
+      role: "研究與數據分析／實驗設計（依實際情況調整）",
+      highlights: [
+        "以量測與誤差分析為核心，建立「可重複驗證」的實驗流程。",
+        "將原始資料進行整理、圖表化與推論，強化以證據支持結論的能力。",
+        "在時間壓力下完成方案迭代，訓練問題定位與快速修正能力。"
+      ],
+      outcomes: [
+        "成果：完成競賽作品與完整實驗紀錄（可補上名次／證書／作品連結）",
+        "能力對應：資料分析、誤差控制、科學寫作與口頭表達"
+      ],
+      tags: ["物理量測", "誤差分析", "科學探究", "資料整理"]
+    },
+    {
+      key: "(b)",
+      title: "瑪莉居禮科學營",
+      role: "跨域學習者／小組專題參與",
+      highlights: [
+        "在密集課程中接觸前沿科學與 AI 議題，建立跨領域理解框架。",
+        "以小組合作完成任務，練習把抽象概念落地成可展示成果。",
+        "將學習內容轉寫為筆記與反思，培養「可輸出」的學習能力。"
+      ],
+      outcomes: [
+        "成果：營隊專題／簡報／筆記整理（可補上照片或PDF連結）",
+        "能力對應：跨域整合、團隊協作、清晰表達"
+      ],
+      tags: ["跨域", "AI", "專題", "團隊合作"]
+    },
+    {
+      key: "(c)",
+      title: "清華大學科學創新暑期營",
+      role: "專題實作／團隊協作",
+      highlights: [
+        "透過專題式學習練習從需求出發：定義問題、拆解任務、規劃方法。",
+        "以工程思維完成原型或方案，並以展示/報告方式呈現成果。",
+        "反思「使用者與可行性」：讓解法不只正確，也能被採用。"
+      ],
+      outcomes: [
+        "成果：專題原型／展示資料（可補上連結）",
+        "能力對應：問題拆解、專案管理、簡報與視覺化"
+      ],
+      tags: ["創新", "專題", "原型", "溝通表達"]
+    },
+    {
+      key: "(d)",
+      title: "物理教育學會－科學競賽培訓",
+      role: "受訓學員／研究方法訓練",
+      highlights: [
+        "系統化訓練科學探究流程：假設、變因控制、數據可信度與結論推論。",
+        "學會用標準格式呈現研究：方法、結果、討論與限制。",
+        "強化競賽型研究的「可讀性」：讓評審快速理解亮點與價值。"
+      ],
+      outcomes: [
+        "成果：培訓紀錄／研究草案或練習成果（可補上）",
+        "能力對應：研究方法、科學寫作、論證結構"
+      ],
+      tags: ["科學方法", "競賽培訓", "研究設計", "寫作"]
+    },
+    {
+      key: "(e)",
+      title: "YIF 高中科技人才培育計畫",
+      role: "科技議題學習／成果整理",
+      highlights: [
+        "接觸科技趨勢與產業視角，理解技術如何對社會與產業造成影響。",
+        "在交流情境中練習提問與吸收回饋，提升跨場域溝通能力。",
+        "將所學整理成可分享內容，培養自我驅動的學習輸出。"
+      ],
+      outcomes: [
+        "成果：學習筆記／心得／報告（可補上）",
+        "能力對應：趨勢分析、提問能力、資訊整理"
+      ],
+      tags: ["科技人才", "趨勢", "觀察", "輸出"]
+    },
+    {
+      key: "(f)",
+      title: "智動化機械探索營",
+      role: "工程探索／系統理解",
+      highlights: [
+        "從系統角度理解自動化流程與機械概念，建立工程直覺。",
+        "透過實作或案例理解「流程—設備—效率」的關係。",
+        "培養把技術放回場景思考的能力：用工程方法解決真實問題。"
+      ],
+      outcomes: [
+        "成果：營隊作品／學習紀錄（可補上）",
+        "能力對應：系統思維、工程理解、應用導向"
+      ],
+      tags: ["自動化", "機械", "系統思維", "實作"]
+    },
+    {
+      key: "(g)",
+      title: "高中三年生物研究（並申請生物科技錄取）",
+      role: "長期研究投入／資料整理與研究表達",
+      highlights: [
+        "長期投入研究主題，累積資料蒐集、實驗規劃與結果詮釋能力。",
+        "在多次迭代中練習控制變因與改善方法，提升研究可信度。",
+        "將研究經驗轉化為申請素材：清楚說明動機、方法與成果。"
+      ],
+      outcomes: [
+        "成果：研究報告／海報／申請成果（可補上）",
+        "能力對應：研究耐力、方法嚴謹、科學表達"
+      ],
+      tags: ["生物研究", "長期投入", "研究方法", "申請"]
+    },
+    {
+      key: "(h)",
+      title: "模擬聯合國（MUN）",
+      role: "代表／文件撰寫／協商談判",
+      highlights: [
+        "在全英文議事環境下，遵循規則進行政策辯論與立場論證。",
+        "撰寫決議草案並與他國協商，將分歧化為可行共識。",
+        "培養跨文化溝通與公共議題視角，能把科技與社會議題連結。"
+      ],
+      outcomes: [
+        "成果：立場文件／決議草案／演講稿（可補上）",
+        "能力對應：英文表達、談判協作、政策思維"
+      ],
+      tags: ["英文", "協商", "國際視野", "寫作"]
+    },
+    {
+      key: "(i)",
+      title: "高中自主學習－現代公民的量子素養",
+      role: "自學規劃者／科普輸出",
+      highlights: [
+        "自訂學習目標與路線，將艱深概念拆成可理解的章節與筆記。",
+        "以科普方式輸出：用比喻、圖解、例子提升可讀性。",
+        "建立「把複雜說清楚」的能力，強化未來科技溝通與教學基礎。"
+      ],
+      outcomes: [
+        "成果：自主學習計畫／筆記／簡報（可補上）",
+        "能力對應：自律自學、知識拆解、科普表達"
+      ],
+      tags: ["自主學習", "量子", "科普", "筆記"]
+    },
+    {
+      key: "(j)",
+      title: "大學自主學習－醫藥大小事，都是我們的事：",
+      role: "議題研究／資訊整合與公眾溝通",
+      highlights: [
+        "以生活與公共議題切入醫藥知識，練習辨識資訊來源可靠性。",
+        "把專業內容整理成一般人能理解的版本，降低理解門檻。",
+        "將學習成果轉為可分享文章/筆記，呼應「減少資訊落差」的使命。"
+      ],
+      outcomes: [
+        "成果：自主學習成果頁／文章／筆記（可補上）",
+        "能力對應：資訊素養、公共溝通、內容產出"
+      ],
+      tags: ["自主學習", "醫藥科普", "資訊素養", "溝通"]
+    }
+  ];
+
+  return `
+    <article class="article">
+      <h1>作品集 / 學習歷程</h1>
+      <p class="sub">以「可驗證成果」呈現：我做了什麼、如何做、學到什麼、如何連結到女性與偏鄉的資訊平權。</p>
+
+      <div class="content">
+        <p><b>使用方式：</b>每個項目你都可以補上「證明連結」：證書、照片、PDF、簡報、影片或網站連結。</p>
+      </div>
+
+      <section class="list" style="margin-top:14px">
+        ${items.map(x => `
+          <div class="item">
+            <div class="top">
+              <div>
+                <div class="kicker">Portfolio ${x.key}</div>
+                <h3>${x.title}</h3>
+              </div>
+              <a class="btn btn-ghost" href="#/subscribe">追蹤更新</a>
+            </div>
+            <p><b>我的角色：</b>${x.role}</p>
+            <p><b>我做了什麼（亮點）：</b></p>
+            <ul>
+              ${x.highlights.map(h => `<li>${h}</li>`).join("")}
+            </ul>
+            <p><b>成果與能力對應：</b></p>
+            <ul>
+              ${x.outcomes.map(o => `<li>${o}</li>`).join("")}
+            </ul>
+            <div class="pills">${x.tags.map(t=>`<span class="pill">${t}</span>`).join("")}</div>
+          </div>
+        `).join("")}
+      </section>
+    </article>
+  `;
+}
+
+function renderPortfolio(){
+  const items = [
     { title:"(a) 全國量測物理競賽", tags:["物理","量測","數據分析"], desc:"以量測與誤差分析為核心，強化實驗設計、資料處理與結果詮釋能力。" },
     { title:"(b) 瑪莉居禮科學營", tags:["科學營","AI","跨域"], desc:"在密集課程與實作中，建立跨領域視角與把概念落地成作品的能力。" },
     { title:"(c) 清華大學科學創新暑期營", tags:["創新","實作","團隊"], desc:"透過專題式學習與團隊協作，培養問題拆解、原型製作與表達能力。" },
@@ -407,6 +599,89 @@ function renderNotFound(){
         <a class="btn" href="#/monthly-trends">看趨勢摘要</a>
       </div>
     </section>
+  `;
+}
+function renderEvents(){
+  const highSchool = [
+    { cat:"數理競賽", items:[
+      { name:"（範例）數學/物理競賽", deadline:"YYYY-MM-DD", who:"高中", note:"準備重點：題型整理＋歷屆＋培訓營", link:"官方連結貼這裡" }
+    ]},
+    { cat:"科學競賽", items:[
+      { name:"（範例）科展/探究實作", deadline:"YYYY-MM-DD", who:"高中", note:"準備重點：研究問題＋方法＋數據可信度", link:"官方連結貼這裡" }
+    ]},
+    { cat:"語文競賽", items:[
+      { name:"（範例）英文演講/辯論/寫作", deadline:"YYYY-MM-DD", who:"高中", note:"準備重點：題庫＋講稿結構＋上台練習", link:"官方連結貼這裡" }
+    ]}
+  ];
+
+  const college = [
+    { cat:"數理競賽", items:[
+      { name:"（範例）數學建模/資料分析", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：建模流程＋分工＋簡報", link:"官方連結貼這裡" }
+    ]},
+    { cat:"資訊競賽", items:[
+      { name:"（範例）Hackathon / AI 競賽", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：作品完成度＋Demo＋GitHub", link:"官方連結貼這裡" }
+    ]},
+    { cat:"創業競賽", items:[
+      { name:"（範例）創新提案/加速器", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：痛點→方案→市場→驗證", link:"官方連結貼這裡" }
+    ]},
+    { cat:"科學競賽", items:[
+      { name:"（範例）研究提案/海報發表", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：研究動機＋方法＋成果呈現", link:"官方連結貼這裡" }
+    ]},
+    { cat:"語文競賽", items:[
+      { name:"（範例）英文簡報/國際會議", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：摘要＋投影片＋口語表達", link:"官方連結貼這裡" }
+    ]}
+  ];
+
+  const renderBlock = (title, blocks) => `
+    <div class="section-head">
+      <h2>${title}</h2>
+      <div class="hint">固定用同一模板更新：截止日 / 對象 / 準備建議 / 官方連結</div>
+    </div>
+    <section class="list">
+      ${blocks.map(b => `
+        <div class="item">
+          <div class="kicker">${b.cat}</div>
+          ${b.items.map(it => `
+            <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,.10)">
+              <h3 style="margin:0">${it.name}</h3>
+              <p style="margin:6px 0 0; color:rgba(255,255,255,.70)">
+                <b>截止日：</b>${it.deadline}　<b>對象：</b>${it.who}
+              </p>
+              <p style="margin:6px 0 0; color:rgba(255,255,255,.70)">
+                <b>準備建議：</b>${it.note}
+              </p>
+              <p style="margin:6px 0 0; color:rgba(255,255,255,.70)">
+                <b>官方連結：</b>${it.link}
+              </p>
+            </div>
+          `).join("")}
+        </div>
+      `).join("")}
+    </section>
+  `;
+
+  return `
+    <article class="article">
+      <h1>活動資訊</h1>
+      <p class="sub">把競賽與培力資源整理成「一頁就看懂」的入口，優先照顧女性與偏鄉學生的資訊取得。</p>
+
+      <div class="content">
+        <h2>更新規則（建議你寫進計畫書）</h2>
+        <ul>
+          <li><b>每月更新 1 次：</b>新增 10 個活動，標註截止日與適合對象。</li>
+          <li><b>每個活動用同一模板：</b>主題／截止日／門檻／準備建議／官方連結。</li>
+          <li><b>資訊平權：</b>優先收錄低門檻、可遠端、或有補助資源的活動（你可額外標註）。</li>
+        </ul>
+      </div>
+
+      ${renderBlock("(a) 高中生競賽資訊", highSchool)}
+      ${renderBlock("(b) 大學生競賽資訊", college)}
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn btn-primary" href="#/subscribe">訂閱（每季寄出精選整理）</a>
+        <a class="btn" href="#/monthly-trends">回每月趨勢摘要</a>
+      </div>
+    </article>
   `;
 }
 
