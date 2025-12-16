@@ -372,4 +372,20 @@ input:focus,textarea:focus{
 .hero::before, .hero::after, section::before, section::after{
   pointer-events: none !important;
 }
+/* About page photo */
+.about-profile {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 32px;
+}
+
+.about-profile img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 6px solid var(--primarySoft);
+  box-shadow: var(--shadow);
+  background: #fff;
+}
 
