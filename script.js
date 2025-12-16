@@ -306,42 +306,42 @@ function renderNewsletter(slug) {
   `;
 }
 
-function renderAbout() {
+ffunction renderAbout(){
   return `
-    <article class="article">
+    <article class="article about">
       <h1>關於我</h1>
-      <p class="sub">以女性視角出發，用科技縮短資訊落差，讓更多女性與偏鄉學生看見更大的世界。</p>
+      <p class="sub">
+        以女性視角出發，用科技縮短資訊落差，讓更多女性與偏鄉學生看見更大的世界。
+      </p>
 
-      <div class="about-hero" style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; margin:12px 0 18px">
-        <img
-          src="./assets/me.jpg"
-          alt="我的個人照片"
-          style="width:140px; height:140px; object-fit:cover; border-radius:18px; border:1px solid var(--line); background:var(--card); box-shadow: var(--shadow);"
-        />
-        <div style="flex:1 1 320px; min-width:260px">
-          <h2>(a) 自我介紹</h2>
-          <p>
-            我是一位對 AI、工程與跨領域學習充滿熱情的女性學生。
-            我相信「資訊」會影響一個人能看見的選項，而看見選項，才有機會改變人生。
-            因此我希望用自己的學習、整理與輸出能力，把原本分散、艧澀、難以取得的科技與競賽資源，
-            轉化成更容易理解、也更容易開始的版本，讓更多女性與偏鄉學生能往更大的世界前進。
-          </p>
-        </div>
+      <!-- 照片區塊 -->
+      <div class="about-profile">
+        <img src="./assets/me.jpg" alt="我的個人照片" />
       </div>
 
       <div class="content">
+        <h2>(a) 自我介紹</h2>
+        <p>
+          我是一位對 AI、工程與跨領域學習充滿熱情的女性學生。
+          我相信「資訊」會影響一個人能看見的選項，而看見選項，才有機會改變人生。
+          因此我希望用自己的學習、整理與輸出能力，
+          把原本分散、艱澀、難以取得的科技與競賽資源，
+          轉化成更容易理解、也更容易開始的版本，
+          讓更多女性與偏鄉學生能往更大的世界前進。
+        </p>
+
         <h2>(b) 我的學習經歷</h2>
         <ul>
-          <li>理工實作與研究：從實驗設計、量測分析到作品整理，累積扎實的科學探究能力。</li>
-          <li>跨領域輸出：把活動與專題轉成可閱讀的文章、筆記與教學內容，建立可驗證的作品集。</li>
-          <li>國際與公共議題：透過模擬聯合國等活動，練習英文溝通、協商與全球視角。</li>
+          <li>理工實作與研究：從實驗設計、量測分析到作品整理。</li>
+          <li>跨領域輸出：把活動與專題轉成文章、筆記與教學內容。</li>
+          <li>國際與公共議題：透過模擬聯合國培養全球視角。</li>
         </ul>
 
         <h2>(c) 創辦網站的宗旨</h2>
         <p>
-          這個網站的核心任務是「幫助女性和偏鄉，減少資訊落差」。
-          我會用固定節奏更新 <b>AI × 工程專題解析</b>、<b>科技趨勢摘要</b> 與 <b>活動/競賽資訊整理</b>，
-          並把學到的 Demo 或筆記整理成教學內容，讓資源更容易被取得、被理解、被使用。
+          這個網站的核心任務是「幫助女性與偏鄉，減少資訊落差」。
+          我會持續更新 AI × 工程解析、科技趨勢與活動資訊，
+          讓資源更容易被取得、理解與使用。
         </p>
       </div>
 
