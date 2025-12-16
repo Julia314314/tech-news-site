@@ -1,58 +1,72 @@
 /* Tech News Site - simple client-side router + local newsletter signup (demo) */
 
-const $ = (sel, root=document) => root.querySelector(sel);
+const $ = (sel, root = document) => root.querySelector(sel);
 
 const state = {
   posts: [],
   newsletters: []
 };
 
-async function loadData(){
-  try{
-    const postsRes = await fetch('./data/posts.json');
+async function loadData() {
+  // 你的 repo 目前 JSON 在根目錄：posts.json / newsletters.json
+  try {
+    const postsRes = await fetch('./posts.json');
     state.posts = postsRes.ok ? await postsRes.json() : [];
-  }catch(e){
+  } catch (e) {
     console.warn('posts.json 載入失敗', e);
     state.posts = [];
   }
 
-  try{
-    const newsRes = await fetch('./data/newsletters.json');
+  try {
+    const newsRes = await fetch('./newsletters.json');
     state.newsletters = newsRes.ok ? await newsRes.json() : [];
-  }catch(e){
+  } catch (e) {
     console.warn('newsletters.json 載入失敗', e);
     state.newsletters = [];
   }
 }
 
-
-function formatDate(iso){
-  try{
+function formatDate(iso) {
+  try {
     const d = new Date(iso);
-    return new Intl.DateTimeFormat('zh-TW', { year:'numeric', month:'2-digit', day:'2-digit' }).format(d);
-  }catch{ return iso; }
+    return new Intl.DateTimeFormat('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(d);
+  } catch {
+    return iso;
+  }
 }
 
-function escapeHtml(str){
-  return str
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'",'&#039;');
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
-function renderHome(){
-  const latest = [...state.posts].sort((a,b) => (b.date||'').localeCompare(a.date||'')).slice(0, 5);
+function safeTags(p) {
+  return Array.isArray(p?.tags) ? p.tags : [];
+}
+
+/* ---------- Views ---------- */
+
+function renderHome() {
+  const latest = [...state.posts]
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+    .slice(0, 5);
 
   return `
     <section class="hero">
       <h1>把科技新知，寫成你看得懂、做得到的版本</h1>
       <p>
-      <b>女性 × 偏鄉 × 科技：</b>我把分散、艱澀、難取得的科技與競賽資源，整理成更容易理解、也更容易開始的版本，
-      讓更多女性與偏鄉學生能看見更大的世界。
-      <br/>
-      同時維持三大固定內容：<b>AI × 工程專題解析</b>、<b>費城科技週觀察</b>、<b>每月科技趨勢摘要</b>。
+        <b>女性 × 偏鄉 × 科技：</b>我把分散、艧澀、難取得的科技與競賽資源，整理成更容易理解、也更容易開始的版本，
+        讓更多女性與偏鄉學生能看見更大的世界。
+        <br/>
+        同時維持三大固定內容：<b>AI × 工程專題解析</b>、<b>費城科技週觀察</b>、<b>每月科技趨勢摘要</b>。
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#/subscribe">立即訂閱</a>
@@ -100,7 +114,7 @@ function renderHome(){
   `;
 }
 
-function postItem(p){
+function postItem(p) {
   return `
     <article class="item">
       <div class="top">
@@ -112,15 +126,16 @@ function postItem(p){
       </div>
       <p>${escapeHtml(p.excerpt)}</p>
       <div class="pills">
-        ${p.tags.map(t => `<span class="pill">${escapeHtml(t)}</span>`).join('')}
+        ${safeTags(p).map(t => `<span class="pill">${escapeHtml(t)}</span>`).join('')}
       </div>
     </article>
   `;
 }
 
-function renderCategoryPage(categoryKey, title, hint){
-  const posts = state.posts.filter(p => p.categoryKey === categoryKey)
-    .sort((a,b) => (b.date||'').localeCompare(a.date||''));
+function renderCategoryPage(categoryKey, title, hint) {
+  const posts = state.posts
+    .filter(p => p.categoryKey === categoryKey)
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
   return `
     <div class="section-head">
@@ -133,9 +148,9 @@ function renderCategoryPage(categoryKey, title, hint){
   `;
 }
 
-function renderPost(slug){
+function renderPost(slug) {
   const p = state.posts.find(x => x.slug === slug);
-  if(!p) return renderNotFound();
+  if (!p) return renderNotFound();
 
   return `
     <article class="article">
@@ -144,10 +159,10 @@ function renderPost(slug){
       <div class="byline">
         <span>分類：${escapeHtml(p.category)}</span>
         <span>日期：${formatDate(p.date)}</span>
-        <span>字數：約 ${p.wordCount} 字</span>
+        <span>字數：約 ${escapeHtml(p.wordCount)}</span>
       </div>
       <div class="content">
-        ${p.contentHtml}
+        ${p.contentHtml || ''}
       </div>
       <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap">
         <a class="btn" href="javascript:history.back()">← 返回</a>
@@ -157,7 +172,7 @@ function renderPost(slug){
   `;
 }
 
-function renderSubscribe(){
+function renderSubscribe() {
   const saved = getSubscribers();
   const count = saved.length;
 
@@ -209,49 +224,49 @@ function renderSubscribe(){
   `;
 }
 
-function getSubscribers(){
-  try{
+function getSubscribers() {
+  try {
     return JSON.parse(localStorage.getItem('subscribers') || '[]');
-  }catch{
+  } catch {
     return [];
   }
 }
-function setSubscribers(list){
+function setSubscribers(list) {
   localStorage.setItem('subscribers', JSON.stringify(list));
 }
 
-function wireSubscribeHandlers(){
+function wireSubscribeHandlers() {
   const btn = $('#subscribeBtn');
-  if(!btn) return;
+  if (!btn) return;
 
   btn.addEventListener('click', () => {
     const name = ($('#name')?.value || '').trim();
     const email = ($('#email')?.value || '').trim().toLowerCase();
     const notice = $('#notice');
+    if (!notice) return;
     notice.style.display = 'block';
 
-    if(!email || !email.includes('@')){
+    if (!email || !email.includes('@')) {
       notice.textContent = '請輸入有效的 Email。';
       return;
     }
     const subs = getSubscribers();
     const exists = subs.some(s => s.email === email);
-    if(exists){
+    if (exists) {
       notice.textContent = '你已經訂閱過了（本機紀錄）。';
       return;
     }
     subs.push({ name, email, at: new Date().toISOString() });
     setSubscribers(subs);
     notice.textContent = '已加入訂閱！（示範版：儲存在你的瀏覽器）';
-    $('#email').value = '';
-    if($('#name')) $('#name').value = '';
-    // Update count text by re-rendering this view quickly
-    setTimeout(() => router(), 450);
+    if ($('#email')) $('#email').value = '';
+    if ($('#name')) $('#name').value = '';
+    setTimeout(() => router(), 200);
   });
 }
 
-function renderArchive(){
-  const items = [...state.newsletters].sort((a,b) => (b.date||'').localeCompare(a.date||''));
+function renderArchive() {
+  const items = [...state.newsletters].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
   return `
     <div class="section-head">
       <h2>季度電子報存檔</h2>
@@ -270,9 +285,9 @@ function renderArchive(){
   `;
 }
 
-function renderNewsletter(slug){
+function renderNewsletter(slug) {
   const n = state.newsletters.find(x => x.slug === slug);
-  if(!n) return renderNotFound();
+  if (!n) return renderNotFound();
 
   return `
     <article class="article">
@@ -282,7 +297,7 @@ function renderNewsletter(slug){
         <span>類型：季度電子報</span>
         <span>日期：${formatDate(n.date)}</span>
       </div>
-      <div class="content">${n.contentHtml}</div>
+      <div class="content">${n.contentHtml || ''}</div>
       <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap">
         <a class="btn" href="#/archive">← 回存檔</a>
         <a class="btn btn-primary" href="#/subscribe">訂閱</a>
@@ -291,21 +306,30 @@ function renderNewsletter(slug){
   `;
 }
 
-function renderAbout(){
+function renderAbout() {
   return `
     <article class="article">
       <h1>關於我</h1>
       <p class="sub">以女性視角出發，用科技縮短資訊落差，讓更多女性與偏鄉學生看見更大的世界。</p>
 
-      <div class="content">
-        <h2>(a) 自我介紹</h2>
-        <p>
-          我是一位對 AI、工程與跨領域學習充滿熱情的女性學生。
-          我相信「資訊」會影響一個人能看見的選項，而看見選項，才有機會改變人生。
-          因此我希望用自己的學習、整理與輸出能力，把原本分散、艱澀、難以取得的科技與競賽資源，
-          轉化成更容易理解、也更容易開始的版本，讓更多女性與偏鄉學生能往更大的世界前進。
-        </p>
+      <div class="about-hero" style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; margin:12px 0 18px">
+        <img
+          src="./assets/me.jpg"
+          alt="我的個人照片"
+          style="width:140px; height:140px; object-fit:cover; border-radius:18px; border:1px solid var(--line); background:var(--card); box-shadow: var(--shadow);"
+        />
+        <div style="flex:1 1 320px; min-width:260px">
+          <h2>(a) 自我介紹</h2>
+          <p>
+            我是一位對 AI、工程與跨領域學習充滿熱情的女性學生。
+            我相信「資訊」會影響一個人能看見的選項，而看見選項，才有機會改變人生。
+            因此我希望用自己的學習、整理與輸出能力，把原本分散、艧澀、難以取得的科技與競賽資源，
+            轉化成更容易理解、也更容易開始的版本，讓更多女性與偏鄉學生能往更大的世界前進。
+          </p>
+        </div>
+      </div>
 
+      <div class="content">
         <h2>(b) 我的學習經歷</h2>
         <ul>
           <li>理工實作與研究：從實驗設計、量測分析到作品整理，累積扎實的科學探究能力。</li>
@@ -329,7 +353,8 @@ function renderAbout(){
     </article>
   `;
 }
-function renderPortfolio(){
+
+function renderPortfolio() {
   const items = [
     {
       key: "(a)",
@@ -511,76 +536,65 @@ function renderPortfolio(){
             <ul>
               ${x.outcomes.map(o => `<li>${o}</li>`).join("")}
             </ul>
-            <div class="pills">${x.tags.map(t=>`<span class="pill">${t}</span>`).join("")}</div>
+            <div class="pills">${x.tags.map(t=>`<span class="pill">${escapeHtml(t)}</span>`).join("")}</div>
           </div>
         `).join("")}
       </section>
     </article>
   `;
 }
-function renderNotFound(){
-  return `
-    <section class="hero">
-      <h1>找不到這頁</h1>
-      <p>可能是連結打錯，或內容尚未上架。</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#/">回首頁</a>
-        <a class="btn" href="#/monthly-trends">看趨勢摘要</a>
-      </div>
-    </section>
-  `;
-}
-function renderEvents(){
+
+function renderEvents() {
   const highSchool = [
-    { cat:"數理競賽", items:[
+    { cat: "數理競賽", items: [
       { name:"（範例）數學/物理競賽", deadline:"YYYY-MM-DD", who:"高中", note:"準備重點：題型整理＋歷屆＋培訓營", link:"官方連結貼這裡" }
     ]},
-    { cat:"科學競賽", items:[
+    { cat: "科學競賽", items: [
       { name:"（範例）科展/探究實作", deadline:"YYYY-MM-DD", who:"高中", note:"準備重點：研究問題＋方法＋數據可信度", link:"官方連結貼這裡" }
     ]},
-    { cat:"語文競賽", items:[
+    { cat: "語文競賽", items: [
       { name:"（範例）英文演講/辯論/寫作", deadline:"YYYY-MM-DD", who:"高中", note:"準備重點：題庫＋講稿結構＋上台練習", link:"官方連結貼這裡" }
     ]}
   ];
 
   const college = [
-    { cat:"數理競賽", items:[
+    { cat: "數理競賽", items: [
       { name:"（範例）數學建模/資料分析", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：建模流程＋分工＋簡報", link:"官方連結貼這裡" }
     ]},
-    { cat:"資訊競賽", items:[
+    { cat: "資訊競賽", items: [
       { name:"（範例）Hackathon / AI 競賽", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：作品完成度＋Demo＋GitHub", link:"官方連結貼這裡" }
     ]},
-    { cat:"創業競賽", items:[
+    { cat: "創業競賽", items: [
       { name:"（範例）創新提案/加速器", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：痛點→方案→市場→驗證", link:"官方連結貼這裡" }
     ]},
-    { cat:"科學競賽", items:[
+    { cat: "科學競賽", items: [
       { name:"（範例）研究提案/海報發表", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：研究動機＋方法＋成果呈現", link:"官方連結貼這裡" }
     ]},
-    { cat:"語文競賽", items:[
+    { cat: "語文競賽", items: [
       { name:"（範例）英文簡報/國際會議", deadline:"YYYY-MM-DD", who:"大學", note:"準備重點：摘要＋投影片＋口語表達", link:"官方連結貼這裡" }
     ]}
   ];
 
   const renderBlock = (title, blocks) => `
     <div class="section-head">
-      <h2>${title}</h2>
+      <h2>${escapeHtml(title)}</h2>
       <div class="hint">固定用同一模板更新：截止日 / 對象 / 準備建議 / 官方連結</div>
     </div>
     <section class="list">
       ${blocks.map(b => `
         <div class="item">
-          <div class="kicker">${b.cat}</div>
+          <div class="kicker">${escapeHtml(b.cat)}</div>
           ${b.items.map(it => `
-            <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,.10)">
-              <h3 style="margin:0">${it.name}</h3>
-              <p style="margin:6px 0 0; color:rgba(255,255,255,.70)">
-                <b>截止日：</b>${it.deadline}　<b>對象：</b>${it.who}
+            <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--line)">
+              <h3 style="margin:0">${escapeHtml(it.name)}</h3>
+              <p style="margin:6px 0 0; color:var(--muted)">
+                <b>截止日：</b>${escapeHtml(it.deadline)}　<b>對象：</b>${escapeHtml(it.who)}
               </p>
-              <p style="margin:6px 0 0; color:rgba(255,255,255,.70)">
-                <b>準備建議：</b>${it.note}
+              <p style="margin:6px 0 0; color:var(--muted)">
+                <b>準備建議：</b>${escapeHtml(it.note)}
               </p>
-              <p style="margin:6px 0 0; color:rgba(255,255,255,.70)">
-                <b>官方連結：</b>${it.link}
+              <p style="margin:6px 0 0; color:var(--muted)">
+                <b>官方連結：</b>${escapeHtml(it.link)}
               </p>
             </div>
           `).join("")}
@@ -614,67 +628,58 @@ function renderEvents(){
   `;
 }
 
+function renderNotFound() {
+  return `
+    <section class="hero">
+      <h1>找不到這頁</h1>
+      <p>可能是連結打錯，或內容尚未上架。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#/">回首頁</a>
+        <a class="btn" href="#/monthly-trends">看趨勢摘要</a>
+      </div>
+    </section>
+  `;
+}
+
 /* ---------- Router ---------- */
-function getRoute(){
+
+function getRoute() {
   const hash = location.hash || '#/';
   const route = hash.replace(/^#/, '');
   const [path, ...rest] = route.split('/').filter(Boolean);
   return { path: path || '', rest };
 }
 
-function router(){
+function router() {
   const app = $('#app');
-  if(!app) return;
+  if (!app) return;
 
   const { path, rest } = getRoute();
   let html = '';
 
-  if(path === '' || path === '/'){
+  if (path === '' || path === '/') {
     html = renderHome();
-
-  }else if(path === 'ai-engineering'){
-    html = renderCategoryPage(
-      'ai-engineering',
-      'AI × 工程專題解析',
-      '用工程與系統思維拆解 AI 如何落地。'
-    );
-
-  }else if(path === 'philly-week'){
-    html = renderCategoryPage(
-      'philly-week',
-      '費城科技週觀察',
-      '活動筆記 × Demo 亮點 × 學生觀察。'
-    );
-
-  }else if(path === 'monthly-trends'){
-    html = renderCategoryPage(
-      'monthly-trends',
-      '每月科技趨勢摘要',
-      '每月 3–5 個趨勢：一句話重點＋影響面＋延伸閱讀。'
-    );
-
-  }else if(path === 'post'){
+  } else if (path === 'ai-engineering') {
+    html = renderCategoryPage('ai-engineering', 'AI × 工程專題解析', '用工程與系統思維拆解 AI 如何落地。');
+  } else if (path === 'philly-week') {
+    html = renderCategoryPage('philly-week', '費城科技週觀察', '活動筆記 × Demo 亮點 × 學生觀察。');
+  } else if (path === 'monthly-trends') {
+    html = renderCategoryPage('monthly-trends', '每月科技趨勢摘要', '每月 3–5 個趨勢：一句話重點＋影響面＋延伸閱讀。');
+  } else if (path === 'post') {
     html = renderPost(decodeURIComponent(rest[0] || ''));
-
-  }else if(path === 'subscribe'){
+  } else if (path === 'subscribe') {
     html = renderSubscribe();
-
-  }else if(path === 'archive'){
+  } else if (path === 'archive') {
     html = renderArchive();
-
-  }else if(path === 'newsletter'){
+  } else if (path === 'newsletter') {
     html = renderNewsletter(decodeURIComponent(rest[0] || ''));
-
-  }else if(path === 'portfolio'){
+  } else if (path === 'portfolio') {
     html = renderPortfolio();
-
-  }else if(path === 'events'){
+  } else if (path === 'events') {
     html = renderEvents();
-
-  }else if(path === 'about'){
+  } else if (path === 'about') {
     html = renderAbout();
-
-  }else{
+  } else {
     html = renderNotFound();
   }
 
@@ -682,18 +687,36 @@ function router(){
   wireSubscribeHandlers();
 }
 
+function renderCategoryPage(categoryKey, title, hint) {
+  const posts = state.posts
+    .filter(p => p.categoryKey === categoryKey)
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+  return `
+    <div class="section-head">
+      <h2>${escapeHtml(title)}</h2>
+      <div class="hint">${escapeHtml(hint)}</div>
+    </div>
+    <section class="list">
+      ${posts.map(p => postItem(p)).join('')}
+    </section>
+  `;
+}
+
 /* ---------- Nav toggle ---------- */
-function initNav(){
+
+function initNav() {
   const toggle = $('.nav-toggle');
   const nav = $('.nav');
-  if(!toggle || !nav) return;
+  if (!toggle || !nav) return;
+
   toggle.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
     toggle.setAttribute('aria-expanded', String(open));
   });
-  // Close menu on navigation
+
   nav.addEventListener('click', (e) => {
-    if(e.target?.tagName === 'A'){
+    if (e.target?.tagName === 'A') {
       nav.classList.remove('open');
       toggle.setAttribute('aria-expanded', 'false');
     }
@@ -701,8 +724,11 @@ function initNav(){
 }
 
 /* ---------- Boot ---------- */
-(async function(){
-  $('#year').textContent = String(new Date().getFullYear());
+
+(async function () {
+  const yearEl = $('#year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
   initNav();
   await loadData();
   window.addEventListener('hashchange', router);
